@@ -21,6 +21,8 @@ import xmlrpc.client
 import argparse
 import re
 
+from os.path import isdir, join, exists
+from os import mkdir, getcwd
 
 SOURCEFILE_TYPE_RE = re.compile(".*\.(tar|zip|gz|z|bz2?|xz)", re.IGNORECASE)
 
@@ -85,6 +87,14 @@ def determine_license(classifiers):
             return LICENSES[license]
     return "CUSTOM"
 
+def write_pkgbuild(data):
+    dir = join(getcwd(), data.name + "-" + data.version)
+    if not isdir(dir):
+        mkdir(dir)
+    if exists(join(dir, "PKGBUILD")):
+        exit("PKGBUILD does exist")
+    with open(join(dir,"PKGBUILD"), "w") as f:
+        f.write(BLANK_PKGBUILD.format(data=data))
 
 def main():
     """docstring for main"""
@@ -149,7 +159,7 @@ def main():
 
     data = AttrDict(data)
 
-    print(BLANK_PKGBUILD.format(data=data))
+    write_pkgbuild(data)
 
 if __name__ == '__main__':
     main()
