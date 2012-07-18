@@ -28,23 +28,24 @@ SOURCEFILE_TYPE_RE = re.compile(".*\.(tar|zip|gz|z|bz2?|xz)", re.IGNORECASE)
 
 BLANK_PKGBUILD = """\
 pkgname={data.pyversion}-{data.name}
+_realname={data.name}
 pkgver={data.version}
 pkgrel=1
 pkgdesc="{data.summary}"
 url="{data.home_page}"
-depends=('{data.pyversion})
+depends=('{data.pyversion}')
 license=('{data.license}')
 arch=('any')
 source=('{data.download_url}')
 md5sums=('{data.md5}')
 
 build() {{
-    cd $srcdir/$pkgname-$pkgver
+    cd $srcdir/$_realname-$pkgver
     {data.pyversion} setup.py build
 }}
 
 package() {{
-    cd $srcdir/$pkgname-$pkgver
+    cd $srcdir/$_realname-$pkgver
     {data.pyversion} setup.py install --root="$pkgdir" --optimize=1
 }}
 """
