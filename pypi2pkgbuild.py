@@ -103,7 +103,7 @@ def main():
 
     parser.add_argument('package', type=str, help='The package')
     parser.add_argument('-u', '--url', type=str,
-                        default='http://pypi.python.org/pypi',
+                        default='https://pypi.python.org/pypi',
                         help='URL of the PyPI XML-RPC')
     parser.add_argument('-v', '--version', type=str, 
                         help='Version of the package')
